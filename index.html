@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puerta de Oro · Tours en Barranquilla</title>
+  <meta name="description" content="Una ruta por Barranquilla y Puerto Colombia: del río Magdalena al mar Caribe.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..800,0..100,0..1&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="tag reveal">🧭 Una sola ruta · 7 paradas · 1 día</span>
+      <h1 class="reveal">Del <em>río</em><br>al <span class="mar">mar</span>.</h1>
+      <p class="sub reveal">Recorre Barranquilla y Puerto Colombia siguiendo la historia de la ciudad que fue la puerta de entrada de Colombia al mundo.</p>
+      <span class="hand hand-note reveal">↓ con guía, transporte y muchas historias</span>
+      <div class="ctas reveal">
+        <a class="btn" href="ruta.html">Ver el mapa de la ruta</a>
+        <a class="btn soft" href="#historia">¿Qué vas a aprender?</a>
+      </div>
+    </div>
+    <div class="scroll-hint">desliza ↓</div>
+  </section>
+
+  <!-- MANIFIESTO -->
+  <section class="manifesto">
+    <div class="wrap">
+      <p class="big reveal">
+        Por aquí entraron <span class="hl">barcos de vapor</span>, inmigrantes, el primer avión comercial de América y hasta el béisbol.
+        Hoy la ciudad se mira en el <span class="hl b">río Magdalena</span>, levanta ventanas de vidrio de colores
+        y celebra a sus ídolos en el <span class="hl g">Gran Malecón</span>.
+      </p>
+    </div>
+  </section>
+
+  <svg class="river-line" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 C 150 0, 300 60, 450 30 S 750 0, 900 30 S 1100 60, 1200 30" fill="none" stroke="#5fb6d6" stroke-width="3" stroke-dasharray="10 10"/>
+  </svg>
+
+  <!-- TEMAS -->
+  <section class="themes" id="historia">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Lo que vas a aprender</span>
+        <h2>Cuatro historias,<br>una ciudad</h2>
+        <p class="hand">no es una lista de lugares: es un relato</p>
+      </div>
+      <div class="postcards" id="postcards"></div>
+    </div>
+  </section>
+
+  <!-- PREVIEW DE RUTA -->
+  <section class="strip-sec">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">La ruta</span>
+        <h2>Siete paradas,<br>de la ciudad a la costa</h2>
+      </div>
+    </div>
+    <div class="strip" id="strip"></div>
+    <div class="cta-row"><a class="btn" href="ruta.html">Abrir el mapa dibujado →</a></div>
+  </section>
+
+  <!-- EL DÍA -->
+  <section class="day" id="dia">
+    <div class="wrap day-grid">
+      <div class="day-card reveal">
+        <span class="kicker">Cómo es el día</span>
+        <h2>Todo listo,<br>tú solo disfruta</h2>
+        <ul class="day-list">
+          <li><div class="ic">🚐</div><div><strong>Recogida y regreso</strong><span>Pasamos por tu hospedaje y te dejamos de vuelta.</span></div></li>
+          <li><div class="ic">🗣️</div><div><strong>Guía local bilingüe</strong><span>Historias, datos curiosos y las mejores fotos.</span></div></li>
+          <li><div class="ic">🐟</div><div><strong>Almuerzo frente al mar</strong><span>Pescado y patacón en Puerto Colombia.</span></div></li>
+          <li><div class="ic">⏱️</div><div><strong>≈ 8 horas</strong><span>De 8:00 a. m. a 4:30 p. m.</span></div></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="price-bubble">
+          <svg class="spin" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="circ" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs>
+            <text font-family="Caveat" font-size="15" fill="#2f7f8f" letter-spacing="3"><textPath href="#circ">· río magdalena · mar caribe · puerto colombia · gran malecón · ventana al mundo </textPath></text>
+          </svg>
+          <div>
+            <div class="from">desde</div>
+            <div class="amt">$180.000</div>
+            <div class="per">COP por persona · precio de ejemplo</div>
+            <a class="btn sun" style="margin-top:1rem" href="#" data-wa>Reservar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    Site.backdrop("assets/img/malecon-avenida.jpg");
+    Site.nav("home");
+    Site.ghosts([
+      { img: "assets/img/shakira.jpg",       cap: "Shakira",          side: "left",  top: "14%", from: 0.06, to: 0.26 },
+      { img: "assets/img/sofia.jpg",         cap: "Sofía Vergara",    side: "right", top: "30%", from: 0.18, to: 0.40 },
+      { img: "assets/img/joe.jpg",           cap: "El Joe",           side: "left",  top: "34%", from: 0.36, to: 0.56 },
+      { img: "assets/img/ventana-mundo.jpg", cap: "Ventana al Mundo", side: "right", top: "16%", from: 0.50, to: 0.68 },
+      { img: "assets/img/faro.jpg",          cap: "Faro de Pto. Colombia", side: "left", top: "20%", from: 0.64, to: 0.78 },
+    ]);
+
+    document.getElementById("postcards").innerHTML = Object.values(THEMES).map((t, i) => `
+      <article class="postcard reveal" style="transition-delay:${i * 90}ms">
+        <div class="ph"><img src="${t.img}" alt="${t.title}"><span class="stamp">0${i + 1}</span></div>
+        <h3>${t.title}</h3>
+        <div class="hand">${t.kicker}</div>
+        <p>${t.text}</p>
+      </article>`).join("");
+
+    document.getElementById("strip").innerHTML = STOPS.map((s) => `
+      <a class="stop-card" href="parada.html?id=${s.id}">
+        <div class="ph"><img src="${s.img}" alt="${s.name}" loading="lazy"></div>
+        <div class="num">Parada ${String(s.n).padStart(2, "0")}</div>
+        <h3>${s.short}</h3>
+      </a>`).join("");
+
+    document.querySelectorAll("[data-wa]").forEach((a) => { a.href = Site.WHATSAPP; a.target = "_blank"; });
+    Site.footer();
+    Site.reveals();
+  </script>
+</body>
+</html>

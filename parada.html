@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parada · Puerta de Oro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..800,0..100,0..1&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <main class="stop-page">
+    <div class="wrap stop-grid" id="stop"></div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get("id") || STOPS[0].id;
+    const i = Math.max(0, STOPS.findIndex((s) => s.id === id));
+    const s = STOPS[i];
+    const prev = STOPS[i - 1], next = STOPS[i + 1];
+    const pics = [s.img, ...(s.gallery || [])];
+    document.title = `${s.name} · Puerta de Oro`;
+
+    Site.backdrop(s.bg);
+    Site.nav("ruta");
+
+    document.getElementById("stop").innerHTML = `
+      <div class="stop-visual reveal">
+        <div class="arch"><img id="main-img" src="${pics[0]}" alt="${s.name}"></div>
+        <span class="badge">Parada ${String(s.n).padStart(2, "0")}</span>
+        ${pics.length > 1 ? `<div class="thumbs">${pics.map((p, k) => `<button class="${k ? "" : "active"}" data-src="${p}"><img src="${p}" alt=""></button>`).join("")}</div>` : ""}
+      </div>
+
+      <article class="stop-text">
+        <div class="crumbs reveal"><a href="ruta.html">← La ruta</a> &nbsp;/&nbsp; ${s.n} de ${STOPS.length}</div>
+        <div class="progress-dots">${STOPS.map((x) => `<a href="parada.html?id=${x.id}" class="${x.id === s.id ? "cur" : ""}" title="${x.name}"></a>`).join("")}</div>
+        <h1 class="reveal">${s.name}</h1>
+        <div class="hand reveal">${s.hand}</div>
+        <div class="meta reveal">
+          <span class="chip">🕗 ${s.time}</span>
+          <span class="chip g">⏱️ ${s.duration}</span>
+        </div>
+        <p class="intro reveal">${s.intro}</p>
+        <div class="body reveal">${s.body.map((p) => `<p>${p}</p>`).join("")}</div>
+
+        <div class="facts reveal">${s.facts.map((f) => `<div class="fact">${f}</div>`).join("")}</div>
+
+        ${s.themes.length ? `
+          <div class="reveal">
+            <span class="kicker">Esta parada conecta con</span>
+            ${s.themes.map((t) => THEMES[t]).map((t) => `
+              <div class="theme-link">
+                <img src="${t.img}" alt="">
+                <div><h4>${t.title}</h4><p>${t.text}</p></div>
+              </div>`).join("")}
+          </div>` : ""}
+
+        ${s.verificar ? `<div class="verify">✎ Prototipo: los datos de esta parada son un borrador y deben verificarse antes de publicar.</div>` : ""}
+
+        <nav class="pager">
+          ${prev ? `<a href="parada.html?id=${prev.id}"><div class="dir">← parada anterior</div><div class="nm">${prev.short}</div></a>` : `<a href="ruta.html"><div class="dir">← volver</div><div class="nm">Mapa de la ruta</div></a>`}
+          ${next ? `<a class="next" href="parada.html?id=${next.id}"><div class="dir">siguiente parada →</div><div class="nm">${next.short}</div></a>` : `<a class="next" href="${Site.WHATSAPP}" target="_blank" rel="noopener"><div class="dir">¿te animas? →</div><div class="nm">Reservar la ruta</div></a>`}
+        </nav>
+      </article>`;
+
+    const main = document.getElementById("main-img");
+    document.querySelectorAll(".thumbs button").forEach((b) => b.addEventListener("click", () => {
+      document.querySelectorAll(".thumbs button").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active");
+      main.src = b.dataset.src;
+    }));
+
+    Site.footer();
+    Site.reveals();
+  </script>
+</body>
+</html>

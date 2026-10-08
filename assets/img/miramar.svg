@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6f7"/><stop offset=".55" stop-color="#fde4c8"/><stop offset="1" stop-color="#ffd9b8"/></linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0e6"/><stop offset="1" stop-color="#bfe6f7"/></linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#sky)"/>
+  <circle cx="400" cy="560" r="120" fill="#ffd76a"/>
+  <rect y="560" width="800" height="440" fill="url(#sea)"/>
+  <g stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity=".8"><path d="M320 600h160M340 640h120M360 680h80"/></g>
+  <path d="M0 760 C 160 690, 300 720, 420 780 S 700 860, 800 820 V1000 H0z" fill="#9fd8b8"/>
+  <path d="M0 860 C 200 800, 380 840, 540 900 S 760 960, 800 940 V1000 H0z" fill="#7cc4a6"/>
+  <g transform="translate(150 700)" stroke="#2f7f8f" stroke-width="7" fill="none" stroke-linecap="round">
+    <path d="M0 0 v-120 M-40 -120 h80 M-30 -120 l30 -40 l30 40"/>
+  </g>
+  <g fill="#2f7f8f" opacity=".7"><path d="M560 420 q 14 -14 28 0 q 14 -14 28 0" stroke="#2f7f8f" stroke-width="5" fill="none"/><path d="M620 380 q 10 -10 20 0 q 10 -10 20 0" stroke="#2f7f8f" stroke-width="5" fill="none"/></g>
+  <text x="400" y="200" text-anchor="middle" font-family="Caveat, cursive" font-size="64" fill="#2f7f8f">el atardecer final</text>
+  <text x="400" y="250" text-anchor="middle" font-family="Caveat, cursive" font-size="34" fill="#2f7f8f" opacity=".7">(foto real pendiente)</text>
+</svg>

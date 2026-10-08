@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6f7"/><stop offset="1" stop-color="#e6f7ef"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#s)"/>
+  <circle cx="610" cy="230" r="90" fill="#ffe7a3"/>
+  <g fill="none" stroke="#7cc4a6" stroke-width="6" stroke-linecap="round">
+    <path d="M120 640 C 140 500, 170 430, 210 380"/><path d="M210 380 c -60 -10 -100 10 -120 40"/><path d="M210 380 c -20 -50 -60 -70 -100 -60"/><path d="M210 380 c 40 -50 90 -50 120 -20"/><path d="M210 380 c 60 -5 90 30 95 70"/>
+  </g>
+  <rect x="0" y="700" width="800" height="300" fill="#d8efe4"/>
+  <path d="M0 760 H800" stroke="#fff" stroke-width="8" stroke-dasharray="40 30"/>
+  <g transform="translate(170 520)">
+    <rect x="0" y="40" width="470" height="190" rx="46" fill="#ffffff" stroke="#2f7f8f" stroke-width="8"/>
+    <path d="M60 40 h250 l90 80 H0 V100 a60 60 0 0 1 60 -60z" fill="#9fd8ee" stroke="#2f7f8f" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M150 40 v80 M240 40 v80" stroke="#2f7f8f" stroke-width="8"/>
+    <rect x="20" y="150" width="430" height="18" fill="#7cc4a6"/>
+    <circle cx="110" cy="232" r="44" fill="#2f7f8f"/><circle cx="110" cy="232" r="18" fill="#fff"/>
+    <circle cx="370" cy="232" r="44" fill="#2f7f8f"/><circle cx="370" cy="232" r="18" fill="#fff"/>
+    <circle cx="452" cy="170" r="12" fill="#ffd76a"/>
+  </g>
+  <text x="400" y="910" text-anchor="middle" font-family="Caveat, cursive" font-size="64" fill="#2f7f8f">¡Te recogemos!</text>
+</svg>

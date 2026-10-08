@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Ruta · Puerta de Oro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..800,0..100,0..1&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <section class="route-hero">
+    <div class="wrap">
+      <span class="kicker reveal">El mapa</span>
+      <h1 class="reveal">La ruta <em>Puerta de Oro</em></h1>
+      <p class="reveal">Un día, siete paradas: arrancamos en la ciudad, bajamos al río Magdalena y terminamos frente al mar Caribe. Toca cualquier parada para conocer su historia.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="map-card reveal">
+        <div class="map-scroll"><svg id="map" viewBox="0 0 1200 780" role="img" aria-label="Mapa ilustrado de la ruta"></svg></div>
+        <p class="map-tip">mapa ilustrado · no está a escala · toca una foto ✎</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">Paso a paso</span>
+        <h2>El itinerario</h2>
+        <p class="hand">horarios aproximados</p>
+      </div>
+      <ol class="tl" id="tl"></ol>
+    </div>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    Site.backdrop("assets/img/muelle-pano.jpg");
+    Site.nav("ruta");
+    Site.ghosts([
+      { img: "assets/img/joe.jpg",     cap: "El Joe",   side: "left",  top: "22%", from: 0.30, to: 0.55 },
+      { img: "assets/img/shakira.jpg", cap: "Shakira",  side: "right", top: "26%", from: 0.45, to: 0.70 },
+    ]);
+
+    // ---------- Mapa dibujado ----------
+    const svg = document.getElementById("map");
+    const NS = "http://www.w3.org/2000/svg";
+
+    // Curva suave que pasa por todos los puntos (Catmull-Rom → Bézier)
+    function smooth(pts) {
+      let d = `M${pts[0].x} ${pts[0].y}`;
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+        const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+        const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+        d += ` C${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${p2.x} ${p2.y}`;
+      }
+      return d;
+    }
+
+    const pts = STOPS.map((s) => s.map);
+    const clips = STOPS.map((s) => `<clipPath id="c-${s.id}"><circle r="46"/></clipPath>`).join("");
+
+    const pins = STOPS.map((s, i) => {
+      const lw = s.short.length * 12 + 26;
+      const below = s.map.y < 260 ? -1 : 1; // etiqueta arriba si el pin está cerca del borde
+      const ly = below > 0 ? 78 : -70;
+      return `
+      <a href="parada.html?id=${s.id}" class="stop-pin" aria-label="Parada ${s.n}: ${s.name}">
+        <g transform="translate(${s.map.x} ${s.map.y})">
+          <g class="pin-pop" style="transition-delay:${0.6 + i * 0.35}s">
+            <g class="ring">
+              <circle r="56" fill="#fff" filter="url(#sh)"/>
+              <circle r="51" fill="none" stroke="#a6e0c4" stroke-width="3" stroke-dasharray="4 5"/>
+              <image href="${s.img}" x="-46" y="-46" width="92" height="92" preserveAspectRatio="xMidYMid slice" clip-path="url(#c-${s.id})"/>
+              <circle cx="42" cy="-40" r="19" fill="#ffd76a" stroke="#fff" stroke-width="3"/>
+              <text x="42" y="-33" text-anchor="middle" font-family="Fraunces" font-weight="700" font-size="20" fill="#15495a">${s.n}</text>
+            </g>
+            <rect class="lbl-bg" x="${-lw / 2}" y="${ly - 22}" width="${lw}" height="32" rx="16"/>
+            <text class="lbl" y="${ly + 2}" text-anchor="middle">${s.short}</text>
+          </g>
+        </g>
+      </a>`;
+    }).join("");
+
+    svg.innerHTML = `
+      <defs>
+        ${clips}
+        <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#15495a" flood-opacity=".22"/></filter>
+        <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter>
+        <pattern id="waves" width="60" height="24" patternUnits="userSpaceOnUse"><path d="M0 12 q15 -10 30 0 t30 0" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/></pattern>
+        <pattern id="blocks" width="22" height="22" patternUnits="userSpaceOnUse"><rect x="3" y="3" width="14" height="14" rx="3" fill="#a6e0c4" opacity=".35"/></pattern>
+      </defs>
+
+      <!-- tierra -->
+      <rect width="1200" height="780" fill="#fbf8ee"/>
+      <!-- mar Caribe -->
+      <path filter="url(#rough)" d="M0 0 H1200 V150 C1110 170 1020 120 965 150 C905 190 800 205 700 212 C560 222 430 200 335 250 C265 290 205 262 125 242 C65 228 25 262 0 272 Z" fill="#cfeaf6"/>
+      <path d="M0 0 H1200 V150 C1110 170 1020 120 965 150 C905 190 800 205 700 212 C560 222 430 200 335 250 C265 290 205 262 125 242 C65 228 25 262 0 272 Z" fill="url(#waves)"/>
+      <path filter="url(#rough)" d="M0 272 C25 262 65 228 125 242 C205 262 265 290 335 250 C430 200 560 222 700 212 C800 205 905 190 965 150 C1020 120 1110 170 1200 150" fill="none" stroke="#5fb6d6" stroke-width="3"/>
+
+      <!-- ciudad -->
+      <path filter="url(#rough)" d="M540 330 C600 280 760 250 880 270 C960 285 980 360 975 440 C970 540 940 640 820 650 C700 660 600 620 560 560 C520 500 500 380 540 330Z" fill="#def5ea"/>
+      <path d="M540 330 C600 280 760 250 880 270 C960 285 980 360 975 440 C970 540 940 640 820 650 C700 660 600 620 560 560 C520 500 500 380 540 330Z" fill="url(#blocks)"/>
+      <text x="760" y="432" font-family="Caveat" font-size="38" fill="#5fbf98" text-anchor="middle" transform="rotate(-4 760 432)">Barranquilla</text>
+
+      <!-- río Magdalena -->
+      <path filter="url(#rough)" d="M1090 790 C1060 680 1010 620 1010 540 C1010 450 960 380 975 290 C985 220 960 180 965 150" fill="none" stroke="#a9dcf0" stroke-width="48" stroke-linecap="round"/>
+      <path d="M1090 790 C1060 680 1010 620 1010 540 C1010 450 960 380 975 290 C985 220 960 180 965 150" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="6 14" opacity=".9"/>
+      <text font-family="Caveat" font-size="30" fill="#2f7f8f"><textPath href="#rio-txt" startOffset="18%">río Magdalena</textPath></text>
+      <path id="rio-txt" d="M1120 760 C1090 660 1050 600 1050 520 C1050 440 1005 370 1018 290" fill="none"/>
+      <text x="1000" y="128" font-family="Caveat" font-size="24" fill="#2f7f8f" text-anchor="middle">Bocas de Ceniza</text>
+
+      <!-- Puente Pumarejo -->
+      <g transform="translate(1042 700) rotate(-12)">
+        <line x1="-70" y1="0" x2="70" y2="0" stroke="#15495a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="0" y1="0" x2="0" y2="-38" stroke="#15495a" stroke-width="4"/>
+        <path d="M0 -38 L-50 0 M0 -38 L-30 0 M0 -38 L30 0 M0 -38 L50 0" stroke="#15495a" stroke-width="1.5"/>
+      </g>
+      <text x="880" y="735" font-family="Caveat" font-size="26" fill="#15495a">Puente Pumarejo →</text>
+
+      <!-- Puerto Colombia y muelle -->
+      <line x1="218" y1="266" x2="196" y2="168" stroke="#15495a" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 7"/>
+      <text x="110" y="450" font-family="Caveat" font-size="34" fill="#5fbf98" transform="rotate(-6 110 450)">Puerto Colombia</text>
+
+      <!-- detalles -->
+      <text x="520" y="110" font-family="Fraunces" font-style="italic" font-size="44" fill="#5fb6d6" opacity=".9">Mar Caribe</text>
+      <g transform="translate(700 120)" fill="none" stroke="#15495a" stroke-width="2.5" stroke-linecap="round">
+        <path d="M-26 0 h52 l-10 14 h-32z" fill="#fff"/><path d="M0 0 v-36 l22 26 h-22"/>
+      </g>
+      <g transform="translate(1110 260)" font-family="Fraunces" font-size="16" fill="#15495a" text-anchor="middle">
+        <circle r="40" fill="#fff" stroke="#15495a" stroke-width="1.5"/>
+        <path d="M0 -34 L7 0 L0 34 L-7 0Z" fill="#ffd76a" stroke="#15495a" stroke-width="1.5"/>
+        <path d="M-34 0 L0 -6 L34 0 L0 6Z" fill="#a6e0c4" stroke="#15495a" stroke-width="1.5"/>
+        <text y="-46">N</text>
+      </g>
+      ${[[90, 520], [380, 600], [460, 260], [1150, 560]].map(([x, y]) => `
+        <g transform="translate(${x} ${y})" fill="none" stroke="#5fbf98" stroke-width="3" stroke-linecap="round">
+          <path d="M0 30 C2 15 4 5 8 -6"/><path d="M8 -6 c-14 -4 -22 2 -26 10 M8 -6 c-4 -12 -14 -16 -24 -12 M8 -6 c10 -12 22 -10 28 -2 M8 -6 c14 0 20 8 20 16"/>
+        </g>`).join("")}
+      <text x="40" y="740" font-family="Caveat" font-size="22" fill="#4d7581">ilustración · no a escala</text>
+
+      <!-- recorrido -->
+      <path id="route-shadow" d="${smooth(pts)}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".9"/>
+      <path id="route" d="${smooth(pts)}" fill="none" stroke="#ff9f8a" stroke-width="5" stroke-linecap="round"/>
+      <path d="${smooth([pts[pts.length - 1], { x: 640, y: 610 }, pts[0]])}" fill="none" stroke="#ff9f8a" stroke-width="3" stroke-dasharray="3 9" opacity=".6"/>
+
+      ${pins}
+    `;
+
+    // animación: dibujar la ruta y luego hacer aparecer los pines
+    const route = document.getElementById("route");
+    const len = route.getTotalLength();
+    route.style.strokeDasharray = len;
+    route.style.strokeDashoffset = len;
+    route.classList.add("route-draw");
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      requestAnimationFrame(() => { route.style.strokeDashoffset = 0; });
+      svg.querySelectorAll(".pin-pop").forEach((p) => p.classList.add("on"));
+      setTimeout(() => { route.style.strokeDasharray = ""; route.style.strokeDashoffset = ""; route.classList.remove("route-draw"); route.classList.add("route-path"); }, 3600);
+      io.disconnect();
+    }, { threshold: 0.25 });
+    io.observe(svg);
+
+    // ---------- Itinerario ----------
+    document.getElementById("tl").innerHTML = STOPS.map((s) => `
+      <li class="reveal">
+        <div class="n"><img src="${s.img}" alt=""></div>
+        <a class="row" href="parada.html?id=${s.id}">
+          <div>
+            <div class="meta">${s.time} · ${s.duration}</div>
+            <h3>${String(s.n).padStart(2, "0")}. ${s.name}</h3>
+          </div>
+          <span class="go">ver →</span>
+        </a>
+      </li>`).join("");
+
+    Site.footer();
+    Site.reveals();
+  </script>
+</body>
+</html>

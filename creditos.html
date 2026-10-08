@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Créditos · Puerta de Oro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <section class="credits">
+    <div class="wrap">
+      <div class="section-head"><span class="kicker">Créditos</span><h2>Fotografías</h2><p class="hand">gracias a quienes las compartieron en Wikimedia Commons</p></div>
+      <div class="tbl"><table><thead><tr><th></th><th>Foto</th><th>Autor</th><th>Licencia</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </div>
+  </section>
+  <script src="js/data.js"></script>
+  <script src="js/credits.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    Site.backdrop("assets/img/malecon.jpg");
+    Site.nav();
+    document.getElementById("rows").innerHTML = CREDITS.map((c) => `
+      <tr><td><img src="assets/img/${c.file}" alt=""></td>
+      <td><a href="${c.url}" target="_blank" rel="noopener">${c.title.replace("File:", "")}</a></td>
+      <td>${c.author}</td><td>${c.license}</td></tr>`).join("");
+    Site.footer();
+  </script>
+</body>
+</html>
